@@ -47,6 +47,7 @@ CREATE TABLE inspections (
     record_id varchar(12),
     score integer(3),
     serial_number varchar(15),
+    service_code integer(5),
     service_description text
 );"""
         
@@ -84,8 +85,9 @@ INSERT INTO inspections (
         record_id,
         score,
         serial_number,
+        service_code,
         service_description
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
 
 insert_violations = """
 INSERT INTO violations (
@@ -94,14 +96,14 @@ INSERT INTO violations (
         violation_code,
         violation_description,
         violation_status
-) VALUES (NULL, ?, ?, ?, ?);"""
+) VALUES (?, ?, ?, ?, ?);"""
 
         
 for row in sheet1.iter_rows(min_row = 2):
-    cursor.execute(insert_inspections, [row[i].value for i in range(19)])
+    cursor.execute(insert_inspections, [row[i].value for i in range(20)])
     
 for row in sheet2.iter_rows(min_row = 2):
-    cursor.execute(insert_violations, [row[i].value for i in range(4)])
+    cursor.execute(insert_violations, [row[i].value for i in range(5)])
 
 # Closes the connection
 connection.commit()
