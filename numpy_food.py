@@ -62,3 +62,39 @@ violationsMonthAverage = sorted(violationsMonthAverage)
 violationsPostcode.reverse()
 violationsDifferentPostcodes.reverse()
 
+// ViolationsPostcode
+valueX = [x[0] for x in violationsPostcode]
+valueY = [y[1] for y in violationsPostcode]
+plt.xticks(range(len(valueY)), valueX)
+plt.plot(valueY)
+plt.title(('Violations per month for zip code {} which has the highest total violations').format(largestAmountViolations))
+plt.xlabel('Date')
+plt.ylabel('Number of violations')
+plt.show()
+
+valueX = [x[0] for x in violationsDifferentPostcodes]
+valueY = [y[1] for y in violationsDifferentPostcodes]
+plt.xticks(range(len(valueY)), valueX)
+plt.plot(valueY)
+plt.title(('Violations per month for zip code {} which has the greatest variance').format(postcodeDifference))
+plt.xlabel('Date')
+plt.ylabel('Number of violations')
+plt.show()
+
+valueX =[x[0].replace('20','') for x in violationsMonthAverage]
+valueY = [y[1] for y in violationsMonthAverage]
+plt.xticks(range(len(valueY)), valueX)
+plt.plot(valueY)
+plt.title('Total violations per month for all zip codes')
+plt.xlabel('Date')
+plt.ylabel('Number of violations')
+plt.show()
+
+query = """SELECT COUNT(violations.serial_number), strftime('%Y-%m', activity_date), facility_name
+FROM violations, inspections
+WHERE violations.serial_number=inspections.serial_number AND (facility_name LIKE '%BURGER KING%' OR facility_name LIKE '%MCDONALDS%')
+GROUP BY facility_name, strftime('%m',activity_date)
+ORDER BY  facility_name , strftime('%Y-%m', activity_date) DESC
+"""
+cursor.execute(query)
+result = cursor.fetchall()
