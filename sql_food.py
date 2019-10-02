@@ -53,7 +53,7 @@ cursor.execute(sqlSelectQuery)
 distinctiveBusinesses = cursor.fetchall()
 
 for j in distinctiveBusinesses:
-    print(distinctiveBusinesses[1], j[0])
+    print(j[1], j[0])
 print(len(distinctiveBusinesses))
 
 connection.commit()

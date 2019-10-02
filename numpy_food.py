@@ -8,6 +8,8 @@ Created on Sun Sep 22 15:34:03 2019
 import numpy
 import sqlite3
 import matplotlib.pyplot as plt
+import datetime
+from operator import itemgetter
 
 connection = sqlite3.connect("database.db")
 cursor = connection.cursor()
@@ -24,7 +26,7 @@ difference = 0
 sqlSelectQuery = """
 SELECT COUNT(violations.serial_number),
     facility_zip,
-    strftime('%m-%Y, activity_date) FROM violations,
+    strftime('%m-%Y', activity_date) FROM violations,
     inspections WHERE violations.serial_number=inspections.serial_number GROUP BY facility_zip,
     strftime('%m', activity_date) ORDER BY facility_zip,
     strftime('%Y-%m', activity_date) DESC"""
@@ -62,7 +64,7 @@ violationsMonthAverage = sorted(violationsMonthAverage)
 violationsPostcode.reverse()
 violationsDifferentPostcodes.reverse()
 
-// ViolationsPostcode
+# ViolationsPostcode
 valueX = [x[0] for x in violationsPostcode]
 valueY = [y[1] for y in violationsPostcode]
 plt.xticks(range(len(valueY)), valueX)
@@ -90,11 +92,28 @@ plt.xlabel('Date')
 plt.ylabel('Number of violations')
 plt.show()
 
-query = """SELECT COUNT(violations.serial_number), strftime('%Y-%m', activity_date), facility_name
-FROM violations, inspections
-WHERE violations.serial_number=inspections.serial_number AND (facility_name LIKE '%BURGER KING%' OR facility_name LIKE '%MCDONALDS%')
-GROUP BY facility_name, strftime('%m',activity_date)
-ORDER BY  facility_name , strftime('%Y-%m', activity_date) DESC
-"""
-cursor.execute(query)
-result = cursor.fetchall()
+#query = """SELECT COUNT(violations.serial_number), strftime('%Y-%m', activity_date), facility_name
+#FROM violations, inspections
+#WHERE violations.serial_number=inspections.serial_number AND (facility_name LIKE '%BURGER KING%' OR facility_name LIKE '%MCDONALDS%')
+#GROUP BY facility_name, strftime('%m',activity_date)
+#ORDER BY  facility_name , strftime('%Y-%m', activity_date) DESC
+#"""
+#cursor.execute(query)
+#result = cursor.fetchall()
+
+###############################
+#restraunt = dict()
+#x = list()
+#y = list()
+#for item in result:
+#    restraunt[item[1]] = restraunt.get(item[1], 0) + item[0]
+#for key, value in restraunt.items():
+#    x.append(key)
+#    y.append(value)
+#plt.xticks(range(len(valueY)), valueX)
+#plt.plot(valueX)
+#plt.title('Total violations per month for all burger kings and mcdonalds')
+#plt.xlabel('Date')
+#plt.ylabel('Number of violations')
+#plt.show()
+#

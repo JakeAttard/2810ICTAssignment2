@@ -6,6 +6,7 @@ Created on Sat Sep 21 22:38:21 2019
 """
 import openpyxl as xl
 from openpyxl import Workbook
+from openpyxl.styles import Font
 import sqlite3
 
 connection = sqlite3.connect("database.db")
@@ -15,9 +16,12 @@ wb = Workbook()
 wbs1 = wb.active
 
 wbs1.title = "Violation Types"
-wbs1["A1"] = "Code"
+wbs1["A1"] ="Code"
+wbs1["A1"].font = Font(bold = True)
 wbs1["B1"] = "Description"
+wbs1["B1"].font = Font(bold = True)
 wbs1["C1"] = "Count"
+wbs1["C1"].font = Font(bold = True)
 
 print(wb.sheetnames)
 
@@ -32,10 +36,6 @@ violationTypes = cursor.fetchall()
 
 for i in violationTypes:
     wbs1.append(i)
-
-#for a, b in zip(wbs1.iter_rows(min_row = 2, min_col = 1, max_col = 3), violationTypes):
-#    for i in range(3):
-#        a[i].value = b[i]
         
 counter = 0
 for row in wbs1.iter_rows(min_row = 2):
