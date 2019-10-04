@@ -92,28 +92,28 @@ plt.xlabel('Date')
 plt.ylabel('Number of violations')
 plt.show()
 
-#query = """SELECT COUNT(violations.serial_number), strftime('%Y-%m', activity_date), facility_name
-#FROM violations, inspections
-#WHERE violations.serial_number=inspections.serial_number AND (facility_name LIKE '%BURGER KING%' OR facility_name LIKE '%MCDONALDS%')
-#GROUP BY facility_name, strftime('%m',activity_date)
-#ORDER BY  facility_name , strftime('%Y-%m', activity_date) DESC
-#"""
-#cursor.execute(query)
-#result = cursor.fetchall()
+#### Average number of violations per month for all McDonalds compared with average for all Burger Kings.
 
-###############################
-#restraunt = dict()
-#x = list()
-#y = list()
-#for item in result:
-#    restraunt[item[1]] = restraunt.get(item[1], 0) + item[0]
-#for key, value in restraunt.items():
-#    x.append(key)
-#    y.append(value)
-#plt.xticks(range(len(valueY)), valueX)
-#plt.plot(valueX)
-#plt.title('Total violations per month for all burger kings and mcdonalds')
-#plt.xlabel('Date')
-#plt.ylabel('Number of violations')
-#plt.show()
-#
+query = """SELECT COUNT(violations.serial_number), strftime('%Y-%m', activity_date), facility_name
+FROM violations, inspections
+WHERE violations.serial_number=inspections.serial_number AND (facility_name LIKE '%BURGER KING%' OR facility_name LIKE '%MCDONALDS%')
+GROUP BY facility_name, strftime('%m',activity_date)
+ORDER BY  facility_name , strftime('%Y-%m', activity_date) DESC
+"""
+cursor.execute(query)
+result = cursor.fetchall()
+
+restraunt = dict()
+x = list()
+y = list()
+for item in result:
+    restraunt[item[1]] = restraunt.get(item[1], 0) + item[0]
+for key, value in restraunt.items():
+    x.append(key)
+    y.append(value)
+plt.xticks(range(len(valueY)), valueX)
+plt.plot(valueX)
+plt.title('Total violations per month for all burger kings and mcdonalds')
+plt.xlabel('Date')
+plt.ylabel('Number of violations')
+plt.show()
