@@ -64,7 +64,8 @@ CREATE TABLE violations (
 );"""
 
 cursor.execute(violations_sql)
-        
+
+ # Inserting the values into the database       
 insert_inspections = """
 INSERT INTO inspections (
         activity_date,
@@ -98,7 +99,7 @@ INSERT INTO violations (
         violation_status
 ) VALUES (?, ?, ?, ?, ?);"""
 
-        
+#Looping through all the rows in the excel sheet starting from row 2       
 for row in sheet1.iter_rows(min_row = 2):
     cursor.execute(insert_inspections, [row[i].value for i in range(20)])
     
