@@ -106,6 +106,6 @@ for row in sheet1.iter_rows(min_row = 2):
 for row in sheet2.iter_rows(min_row = 2):
     cursor.execute(insert_violations, [row[i].value for i in range(5)])
 
-# Closes the connection
+# Saves and closes the connection
 connection.commit()
 connection.close()
